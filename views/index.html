@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+
+<head>
+  <meta charset="utf-8">
+  <title>Jumbo Cart Sample</title>
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css">
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.min.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular-route.js"></script>
+  <link rel="stylesheet" href="../public/css/index.css">
+
+</head>
+
+<body>
+  <div id="home" ng-app="app" ng-controller="ctrl">
+    <div class="container " id="head" align="center">
+      <b>JUMBO</b>
+      <span id="cart" ng-click=showCart()><i class="fas fa-shopping-cart"></i></span>
+    </div>
+    <div class="container prod ">
+      <div class="row justify-content-around">
+        <div class="prodDiv " ng-repeat="product in products">
+          <img class="img" src={{product.img}}>
+          <div align="center">
+            <p><b>{{product.name}}</b></p>
+            <p>Price : &#8377; {{product.price}}</p>
+            <button type="button" class="btn btn-outline-primary" ng-click=addToCart(product)>
+              Add to Cart
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- =================show cart================== -->
+
+    <div id="cartPage" ng-show="showcart">
+      <div id="cartDiv">
+        <div class="cartHead">
+          <b>Your shopping cart</b>
+          <span id="close" ng-click=showCart()><i class="far fa-window-close"></i></span>
+        </div>
+        <div class="container">
+          <div class="row cartItems justify-content-around" ng-repeat="item in mycart" ng-mouseover=other($index)
+            ng-mouseleave=details($index)>
+            <div class="col-lg-3  "><img src={{item.img}} class="img-thumbnail"></div>
+            <div class="col-lg-9" ng-show=itemDetails[$index]>
+              <div class="row">
+                <div class="col-lg-8 item">{{item.name}}</div>
+                <div class="col-lg-3 item"> &#8377;{{item.price}}&nbsp;
+                  ( {{item.quantity}} )
+                </div>
+              </div>
+            </div>
+            <div class="col-lg-9" ng-show=remove[$index]>
+              <div class="row">
+                <div class="col-lg-8  sym " align = "center">
+                    <button type="button" class="btn btn-secondary" ng-click=dec($index)>
+                        -
+                      </button>
+                   {{item.quantity}} 
+                   <button type="button" class="btn btn-secondary" ng-click=inc($index)>
+                      +
+                    </button>
+                  </div>
+                <div class="col-lg-2 item remove">
+                  <button type="button" class="btn  btn-outline-danger" ng-click=removeFromCart($index)>
+                    X
+                  </button>
+                </div>
+              </div>
+            </div>
+
+          </div>
+          <div ng-show=(mycart.length) align="right">
+            Total : {{total}}
+          </div>
+          <!-- =================when  cart is empty================== -->
+          <div ng-show=!(mycart.length)>
+            <br>
+            Your cart is empty!!
+            <br><br>
+            <button type="button" class="btn btn-outline-primary" ng-click=showCart()>
+              Continue Shopping
+            </button>
+          </div>
+        </div>
+      </div>
+      <!-- ====================confirmation box =================== -->
+      <!-- <div id="cnfrm"> -->
+      <!-- <div class="container"></div> -->
+      <!-- </div> -->
+    </div>
+
+
+  </div>
+
+  <script src="../public/js/home.js"></script>
+</body>
+
+</html>
