@@ -1,4 +1,7 @@
 var app = angular.module("app", []);
+
+// ======================service======================
+
 app.service('productService', function () {
     this.prodFunc = function () {
         return products = {
@@ -24,8 +27,67 @@ app.service('productService', function () {
             }
         };
     };
+    mycart = [];
+    total = 0;
+    remove = [false];
+    itemDetails = [true];
+    this.other = function (i) {
+        remove[i] = true
+        itemDetails[i] = false
+    }
+    this.details = function (i) {
+        remove[i] = false
+        itemDetails[i] = true
+    }
+
+    this.getRemove = function () {
+        return remove
+    }
+    this.getItemDetails = function () {
+        return itemDetails
+    }
+    this.getTotal = function () {
+        return total
+    }
+    this.addToCart = function (item) {
+        if (mycart.includes(item) === false) {
+            mycart.push(item)
+            total += item.price
+            index = mycart.length - 1
+            mycart[index]['quantity'] = 1;
+            remove[index] = false
+            itemDetails[index] = true;
+        }
+        else
+            alert("This item is already available in your cart")
+        return mycart;
+    }
+    this.removeFromCart = function (i) {
+        total -= (mycart[i].price * mycart[i].quantity);
+        mycart.splice(i, 1)
+        remove.splice(i, 1)
+        itemDetails.splice(i, 1)
+        return mycart
+    }
+
+    this.inc = function (i) {
+        mycart[i]['quantity'] += 1;
+        total += mycart[i]['price']
+        return mycart
+    }
+    this.dec = function (i) {
+        if (mycart[i]['quantity'] > 1) {
+            mycart[i]['quantity'] -= 1;
+            total -= mycart[i]['price']
+        }
+        return mycart
+    }
+
 })
-app.controller("ctrl", function ($scope, productService) {
+
+// ==================Controller==========================
+
+app.controller("ctrl", function ($scope, productService, $timeout) {
     $scope.showcart = false;
     $scope.products = productService.prodFunc()
     $scope.showCart = function () {
@@ -37,43 +99,45 @@ app.controller("ctrl", function ($scope, productService) {
     $scope.itemDetails = [true];
 
     $scope.addToCart = function (item) {
-        if ($scope.mycart.includes(item) === false) {
-            $scope.mycart.push(item)
-            $scope.total += item.price
-            $scope.index = $scope.mycart.length - 1
-            $scope.mycart[$scope.index]['quantity'] = 1;
-            $scope.remove[$scope.index] = false
-            $scope.itemDetails[$scope.index] = true;
-        }
-        else
-            alert("This item is already available in your cart")
-        // alert("\"" + item.name +"\" was successfully added to your cart")
+        $scope.mycart = productService.addToCart(item)
+        $scope.total = productService.getTotal()
+        $scope.remove = productService.getRemove()
+        $scope.itemDetails = productService.getItemDetails()
         $scope.showCart()
     }
     $scope.removeFromCart = function (i) {
-        $scope.total -= ($scope.mycart[i].price * $scope.mycart[i].quantity);
-        $scope.mycart.splice(i, 1)
-        $scope.remove.splice(i, 1)
-        $scope.itemDetails.splice(i, 1)
+        $scope.mycart = productService.removeFromCart(i)
+        $scope.total = productService.getTotal()
+        $scope.remove = productService.getRemove()
+        $scope.itemDetails = productService.getItemDetails()
     }
 
     $scope.other = function (i) {
-        $scope.remove[i] = true
-        $scope.itemDetails[i] = false
+        productService.other(i)
+        $scope.remove = productService.getRemove()
+        $scope.itemDetails = productService.getItemDetails()
     }
     $scope.details = function (i) {
-        $scope.remove[i] = false
-        $scope.itemDetails[i] = true
+        productService.details(i)
+        $scope.remove = productService.getRemove()
+        $scope.itemDetails = productService.getItemDetails()
     }
     $scope.inc = function (i) {
-        $scope.mycart[i]['quantity'] += 1;
-        $scope.total += $scope.mycart[i]['price']
+        $scope.mycart = productService.inc(i)
+        $scope.total = productService.getTotal()
     }
     $scope.dec = function (i) {
-        if ($scope.mycart[i]['quantity'] > 1) {
-            $scope.mycart[i]['quantity'] -= 1;
-            $scope.total -= $scope.mycart[i]['price']
-        }
+        $scope.mycart = productService.dec(i)
+        $scope.total = productService.getTotal()
     }
+    $scope.addClass = function () {
+        var myEl = angular.element(document.querySelector('.cartDiv'));
+        myEl.addClass('close');
+        $timeout(function () {
+            $scope.showCart();
+            myEl.removeClass('close');            
+          }, 600);
+    }
+
 })
 

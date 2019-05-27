@@ -36,16 +36,16 @@
 
     <!-- =================show cart================== -->
 
-    <div id="cartPage" ng-show="showcart">
-      <div id="cartDiv" >
+    <div id="cartPage" ng-show="showcart" ng-click=addClass() ></div>
+      <div class="cartDiv" ng-show="showcart">
         <div class="cartHead">
           <b>Your shopping cart</b>
-          <span id="close" ng-click=showCart()><i class="far fa-window-close"></i></span>
+          <span id="close" ng-click=addClass()><i class="far fa-window-close"></i></span>
         </div>
         <div class="container" align="center">
           <div class="row cartItems justify-content-around" ng-repeat="item in mycart" ng-mouseover=other($index)
             ng-mouseleave=details($index)>
-            <div class="col-lg-3 item " ><img src={{item.img}} class="img-thumbnail"></div>
+            <div class="col-lg-3 item "><img src={{item.img}} class="img-thumbnail"></div>
             <div class="col-lg-9" ng-show=itemDetails[$index]>
               <div class="row">
                 <div class="col-lg-8 item">{{item.name}}</div>
@@ -82,7 +82,7 @@
 
           </div>
           <div ng-show=(mycart.length) align="center">
-            <button type="button" class="btn btn-outline-primary" >
+            <button type="button" class="btn btn-outline-primary">
               Proceed To Checkout
             </button>
           </div>
@@ -91,7 +91,7 @@
             <br>
             Your cart is empty!!
             <br><br>
-            <button type="button" class="btn btn-outline-primary" ng-click=showCart()>
+            <button type="button" class="btn btn-outline-primary" ng-click=addClass()>
               Continue Shopping
             </button>
           </div>
@@ -101,7 +101,7 @@
       <!-- <div id="cnfrm"> -->
       <!-- <div class="container"></div> -->
       <!-- </div> -->
-    </div>
+    
 
 
   </div>
