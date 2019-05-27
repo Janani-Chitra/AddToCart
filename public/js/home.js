@@ -1,28 +1,33 @@
 var app = angular.module("app", []);
-app.controller("ctrl", function ($scope) {
-    $scope.showcart = false;
-    $scope.products = {
-        prod1: {
-            img: "../public/images/j1.jpg",
-            name: "SUKKHI JEWELLERY SET",
-            price: 250
-        },
-        prod2: {
-            img: "../public/images/s1.jpg",
-            name: "APARA JEWELLERY SET",
-            price: 690
-        },
-        prod3: {
-            img: "../public/images/s2.jpg",
-            name: "DIVA KUNDAN NECKLACE",
-            price: 999
-        },
-        prod4: {
-            img: "../public/images/s3.jpg",
-            name: "YOUBELLA ANTIQUE NECKLACE",
-            price: 1250
-        }
+app.service('productService', function () {
+    this.prodFunc = function () {
+        return products = {
+            prod1: {
+                img: "../public/images/j1.jpg",
+                name: "SUKKHI JEWELLERY SET",
+                price: 250
+            },
+            prod2: {
+                img: "../public/images/s1.jpg",
+                name: "APARA JEWELLERY SET",
+                price: 690
+            },
+            prod3: {
+                img: "../public/images/s2.jpg",
+                name: "DIVA KUNDAN NECKLACE",
+                price: 999
+            },
+            prod4: {
+                img: "../public/images/s3.jpg",
+                name: "YOUBELLA ANTIQUE NECKLACE",
+                price: 1250
+            }
+        };
     };
+})
+app.controller("ctrl", function ($scope, productService) {
+    $scope.showcart = false;
+    $scope.products = productService.prodFunc()
     $scope.showCart = function () {
         $scope.showcart = !$scope.showcart;
     }
@@ -51,7 +56,7 @@ app.controller("ctrl", function ($scope) {
         $scope.remove.splice(i, 1)
         $scope.itemDetails.splice(i, 1)
     }
-    
+
     $scope.other = function (i) {
         $scope.remove[i] = true
         $scope.itemDetails[i] = false
@@ -71,3 +76,4 @@ app.controller("ctrl", function ($scope) {
         }
     }
 })
+

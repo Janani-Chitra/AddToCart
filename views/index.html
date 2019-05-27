@@ -37,15 +37,15 @@
     <!-- =================show cart================== -->
 
     <div id="cartPage" ng-show="showcart">
-      <div id="cartDiv">
+      <div id="cartDiv" >
         <div class="cartHead">
           <b>Your shopping cart</b>
           <span id="close" ng-click=showCart()><i class="far fa-window-close"></i></span>
         </div>
-        <div class="container">
+        <div class="container" align="center">
           <div class="row cartItems justify-content-around" ng-repeat="item in mycart" ng-mouseover=other($index)
             ng-mouseleave=details($index)>
-            <div class="col-lg-3  "><img src={{item.img}} class="img-thumbnail"></div>
+            <div class="col-lg-3 item " ><img src={{item.img}} class="img-thumbnail"></div>
             <div class="col-lg-9" ng-show=itemDetails[$index]>
               <div class="row">
                 <div class="col-lg-8 item">{{item.name}}</div>
@@ -56,15 +56,15 @@
             </div>
             <div class="col-lg-9" ng-show=remove[$index]>
               <div class="row">
-                <div class="col-lg-8  sym " align = "center">
-                    <button type="button" class="btn btn-secondary" ng-click=dec($index)>
-                        -
-                      </button>
-                   {{item.quantity}} 
-                   <button type="button" class="btn btn-secondary" ng-click=inc($index)>
-                      +
-                    </button>
-                  </div>
+                <div class="col-lg-8  sym " align="center">
+                  <button type="button" class="btn btn-secondary" ng-click=dec($index)>
+                    -
+                  </button>
+                  {{item.quantity}}
+                  <button type="button" class="btn btn-secondary" ng-click=inc($index)>
+                    +
+                  </button>
+                </div>
                 <div class="col-lg-2 item remove">
                   <button type="button" class="btn  btn-outline-danger" ng-click=removeFromCart($index)>
                     X
@@ -74,8 +74,17 @@
             </div>
 
           </div>
+          <div ng-show=(mycart.length) align="center">
+            <hr size="10">
+          </div>
           <div ng-show=(mycart.length) align="right">
             Total : {{total}}
+
+          </div>
+          <div ng-show=(mycart.length) align="center">
+            <button type="button" class="btn btn-outline-primary" >
+              Proceed To Checkout
+            </button>
           </div>
           <!-- =================when  cart is empty================== -->
           <div ng-show=!(mycart.length)>
